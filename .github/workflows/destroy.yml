@@ -1,0 +1,43 @@
+name: Destroy Infrastructure - royalben_01
+
+on:
+  workflow_dispatch:
+
+jobs:
+  destroy:
+    name: Terraform Destroy
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Get Existing S3 State Bucket
+        id: get_bucket
+        run: |
+          BUCKET_NAME=$(aws s3api list-buckets --query "Buckets[?starts_with(Name, 'devops-state-royalben_01-')].Name" --output text)
+          echo "BUCKET_NAME=$BUCKET_NAME" >> $GITHUB_ENV
+          echo "Resolved bucket: $BUCKET_NAME"
+
+      - name: Terraform Init with S3 Backend
+        run: |
+          terraform init \
+            -backend-config="bucket=$BUCKET_NAME" \
+            -backend-config="key=royalben_01/terraform.tfstate" \
+            -backend-config="region=us-east-1"
+
+      - name: Terraform Destroy
+        run: |
+          terraform destroy -auto-approve \
+            -var="public_key=placeholder" \
+            -var="project_name=${{ secrets.PROJECT_NAME }}" \
+            -var="aws_region=${{ secrets.AWS_REGION }}" \
+            || true
