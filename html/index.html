@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>royalben_01</title>
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #111118;
+      --accent: #6c63ff;
+      --accent-glow: rgba(108, 99, 255, 0.3);
+      --text-primary: #f0f0f5;
+      --text-muted: #5a5a72;
+      --border: rgba(255, 255, 255, 0.06);
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Subtle background grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Radial glow behind content */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(108, 99, 255, 0.1);
+      border: 1px solid rgba(108, 99, 255, 0.3);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    .project-name {
+      font-size: clamp(2.8rem, 8vw, 6rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      background: linear-gradient(135deg, #ffffff 30%, #8b85ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1.5rem;
+      user-select: none;
+    }
+
+    .project-name span {
+      background: linear-gradient(135deg, var(--accent) 0%, #a78bfa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .divider {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      margin: 0 auto 1.5rem;
+      border-radius: 2px;
+    }
+
+    .tagline {
+      font-size: 1rem;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      margin-bottom: 3rem;
+    }
+
+    .actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.75rem 1.75rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      border: none;
+      letter-spacing: 0.02em;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 24px var(--accent-glow);
+    }
+
+    .btn-primary:hover {
+      background: #7b74ff;
+      box-shadow: 0 0 36px rgba(108, 99, 255, 0.5);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .btn-secondary:hover {
+      border-color: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.06);
+      transform: translateY(-2px);
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="badge">
+      <span class="badge-dot"></span>
+      Active Project
+    </div>
+
+    <h1 class="project-name">royalben<span>_01</span></h1>
+
+    <div class="divider"></div>
+
+    <p class="tagline">A project built with precision and purpose.</p>
+
+    <div class="actions">
+      <a href="#" class="btn btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Get Started
+      </a>
+      <a href="#" class="btn btn-secondary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Learn More
+      </a>
+    </div>
+  </div>
+
+  <div class="footer">royalben_01 &nbsp;·&nbsp; v1.0.0</div>
+
+</body>
+</html>
